@@ -1,0 +1,13 @@
+    Checking FFBox v0.1.0 (C:\Users\molcay\Workspaces\MOT\ffmpeg-batch-gui\tauri)
+error[E0255]: the name `__cmd__ask_dialog` is defined multiple times
+   --> src\lib.rs:383:14
+    |
+382 | #[tauri::command]
+    | ----------------- previous definition of the macro `__cmd__ask_dialog` here
+383 | pub async fn ask_dialog(
+    |              ^^^^^^^^^^ `__cmd__ask_dialog` reimported here
+    |
+    = note: `__cmd__ask_dialog` must be defined only once in the macro namespace of this module
+
+For more information about this error, try `rustc --explain E0255`.
+error: could not compile `FFBox` (lib) due to 1 previous error

@@ -1,0 +1,72 @@
+name: Release FFBox
+
+# This workflow triggers whenever you push a tag that starts with 'v'
+# Example: git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Required permissions for the GitHub token to create a Release and upload assets
+permissions:
+  contents: write
+
+jobs:
+  build-tauri:
+    strategy:
+      fail-fast: false
+      matrix:
+        # We define the operating systems we want to build for
+        platform: [macos-latest, ubuntu-22.04, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------
+      # LINUX SPECIFIC DEPENDENCIES
+      # Tauri v2 requires webkit2gtk-4.1 on Linux
+      # -----------------------------------------------------------------
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      # -----------------------------------------------------------------
+      # ENVIRONMENT SETUP (Node.js & Rust)
+      # -----------------------------------------------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      # Caching Rust dependencies dramatically speeds up subsequent builds
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './tauri -> target'
+
+      # -----------------------------------------------------------------
+      # FRONTEND & TAURI BUILD
+      # -----------------------------------------------------------------
+      - name: Install frontend dependencies
+        run: npm install # Change to `pnpm install` or `yarn install` if you prefer
+
+      # The official Tauri action does the heavy lifting:
+      # It runs `tauri build`, creates a GitHub release, and uploads the installers.
+      - name: Build and Release Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This grabs the version from your tag (e.g., v0.1.0)
+          tagName: ${{ github.ref_name }}
+          releaseName: 'FFBox ${{ github.ref_name }}'
+          releaseBody: 'See the assets below to download and install this version.'
+          releaseDraft: true
+          prerelease: false
