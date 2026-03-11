@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FFBox — Batch FFmpeg, without the command line</title>
+  <meta name="description"
+    content="FFBox is a lightweight, cross-platform GUI for FFmpeg batch conversions. Queue files, pick presets, and convert — no terminal required." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+
+  <!-- ── NAV ── -->
+  <header class="nav">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="assets/logo.svg" alt="FFBox logo" class="nav__logo-img" />
+        <span>FF<span class="logo-accent">Box</span></span>
+      </a>
+      <nav class="nav__links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="https://github.com/molcay/ffbox" target="_blank" rel="noopener" class="nav__gh">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          GitHub
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__badge">Native batch conversion powered by FFmpeg & Tauri</div>
+      <h1 class="hero__title">
+        Batch convert media.<br />
+        <span class="gradient-text">No terminal required.</span>
+      </h1>
+      <p class="hero__sub">
+        FFBox wraps FFmpeg in a clean desktop UI. Drop files, pick a preset,
+        watch them convert — it's that simple.
+      </p>
+      <div class="hero__cta">
+        <a href="https://github.com/molcay/ffbox/releases" class="btn btn--primary" id="download-btn">
+          Download
+          <span class="btn__arrow">→</span>
+        </a>
+        <a href="https://github.com/molcay/ffbox" class="btn btn--ghost" id="source-btn">View source</a>
+      </div>
+      <div class="hero__meta">
+        <span>Windows · macOS · Linux</span>
+        <span class="dot">·</span>
+        <span>Free &amp; open source</span>
+      </div>
+    </div>
+
+    <div class="hero__terminal-wrap container">
+      <div class="terminal" id="terminal-demo" aria-label="Terminal demo showing FFBox usage">
+        <div class="terminal__bar">
+          <span class="terminal__dot terminal__dot--red"></span>
+          <span class="terminal__dot terminal__dot--yellow"></span>
+          <span class="terminal__dot terminal__dot--green"></span>
+          <span class="terminal__title">Without FFBox</span>
+        </div>
+        <pre class="terminal__body"><span class="t-dim">$</span> ffmpeg -i input.mp4 -vcodec libx264 -crf 23 \
+    -preset slow -acodec aac -b:a 192k \
+    -movflags +faststart output.mp4
+<span class="t-dim">$</span> <span class="t-cursor"> </span></pre>
+        <div class="terminal__vs">VS</div>
+      </div>
+      <div class="terminal terminal--light" aria-label="FFBox UI description">
+        <div class="terminal__bar terminal__bar--light">
+          <span class="terminal__dot terminal__dot--red"></span>
+          <span class="terminal__dot terminal__dot--yellow"></span>
+          <span class="terminal__dot terminal__dot--green"></span>
+          <span class="terminal__title terminal__title--light">With FFBox</span>
+        </div>
+        <div class="ffbox-mock">
+          <div class="mock-step">
+            <span class="mock-num">1</span>
+            <span>Drag &amp; drop your files (or folders)</span>
+            <span class="mock-check">✓</span>
+          </div>
+          <div class="mock-step">
+            <span class="mock-num">2</span>
+            <span>Select a preset — H.264, HEVC, MP3…</span>
+            <span class="mock-check">✓</span>
+          </div>
+          <div class="mock-step">
+            <span class="mock-num">3</span>
+            <span>Hit Convert and watch progress</span>
+            <span class="mock-check mock-check--spin">⟳</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">What's included</h2>
+
+      <div class="features__grid">
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+              <polyline points="6 8 10 12 6 16" />
+              <line x1="14" y1="12" x2="18" y2="12" />
+            </svg>
+          </div>
+          <h3>Dependency management</h3>
+          <p>Checks for existing FFmpeg &amp; FFprobe on startup. Missing? It downloads and sets up the right binaries
+            for your OS automatically.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="9" y1="15" x2="15" y2="15" />
+            </svg>
+          </div>
+          <h3>Preset manager</h3>
+          <p>Ships with sensible defaults. Add, edit, or delete your own FFmpeg command profiles through a settings
+            panel — no config file editing needed.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+          </div>
+          <h3>Batch &amp; folder drop</h3>
+          <p>Drag individual files or entire folders. FFBox recursively scans for media and queues everything up, ready
+            to go.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <h3>Live progress</h3>
+          <p>Per-file progress bars updated in real time. See what's converting, what's queued, and what's done at a
+            glance.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <h3>Flexible output</h3>
+          <p>Send converted files to a fixed directory, or drop them in an <code>FFBox/</code> subfolder next to the
+            source — your choice.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="9" height="9" rx="1" />
+              <rect x="13" y="2" width="9" height="9" rx="1" />
+              <rect x="2" y="13" width="9" height="9" rx="1" />
+              <rect x="13" y="13" width="9" height="9" rx="1" />
+            </svg>
+          </div>
+          <h3>Cross-platform</h3>
+          <p>Built with Tauri so the binary is small and native on Windows, macOS, and Linux. No Electron bloat, no
+            Node.js runtime required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="how" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">From install to first conversion in under two minutes.</p>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step__num">01</div>
+          <div class="step__body">
+            <h3>Install</h3>
+            <p>Download the installer for your platform from the <a href="https://github.com/molcay/ffbox/releases"
+                target="_blank" rel="noopener">releases page</a>. FFBox checks for FFmpeg on first launch and downloads
+              it if needed.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num">02</div>
+          <div class="step__body">
+            <h3>Add files</h3>
+            <p>Drag files or folders onto the app. It recursively queues every media file it finds — no need to flatten
+              your folder structure first.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num">03</div>
+          <div class="step__body">
+            <h3>Pick a preset</h3>
+            <p>Choose from the built-in profiles (H.264, HEVC, MP3, …) or create your own preset with any FFmpeg flags
+              you need.</p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step__num">04</div>
+          <div class="step__body">
+            <h3>Convert &amp; done</h3>
+            <p>Hit Convert. Watch per-file progress live. Find the output exactly where you configured it.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#" class="nav__logo footer__logo">
+        <img src="assets/logo.svg" alt="FFBox logo" class="nav__logo-img" />
+        <span>FF<span class="logo-accent">Box</span></span>
+      </a>
+      <p class="footer__copy">MIT License · <a href="https://github.com/molcay/ffbox" target="_blank"
+          rel="noopener">github.com/molcay/ffbox</a></p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
